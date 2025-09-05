@@ -1,0 +1,49 @@
+@startuml
+class Pessoa {
+    -idPessoa: int
+    -nome: String
+    -dataNascimento: Date
+    -sexo: String
+    -email: String
+    -telefone: String
+}
+
+class Medico extends Pessoa {
+    -crm: String
+    --
+    +listarMedico(): List<Medico>
+}
+
+class Especialidade {
+    -idEspecialidade: int
+    -especialidade: String
+    --
+    +listarEspecialidade(): List<Especialidade>
+}
+class Paciente extends Pessoa {
+    -numeroCarteira: String
+    --
+    +listarPaciente(): List<Paciente>
+}
+
+class Consulta {
+    -idConsulta: int
+    -dataHora: DateTime
+    -local: String
+    -dataHora: DateTime
+    -medico: Medico
+    -paciente: Paciente
+    -observacao: String
+    -status: String
+    --
+    +listarConsulta(): List<Consulta>
+    +agendar()
+    +cancelarConsulta()
+}
+
+
+
+Medico "1" -- "*" Consulta
+Paciente "1" -- "*" Consulta
+Especialidade "1" -- "*" Medico
+@enduml
