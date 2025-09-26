@@ -6,18 +6,19 @@ esta pode ter um ou mais médicos.
 class Especialidade:
     def __init__(self, nome):
         self.nome = nome
-        self.medico = [] # uma lista de médicos
+        self.medicos = [] # lista de médicos
         
-    def __str__(self):
-        return f"{self.nome}: {self.medico}"
+    def __repr__(self):
+        return f"{self.nome}"
     
 class Medico:
-    def __init__(self, nome, crm):
+    def __init__(self, nome, crm, especialidade):
         self.nome = nome
         self.crm = crm
+        self.especialidade = especialidade
     
     def __str__(self):
-        return f"Médico(a): {self.nome} | CRM: {self.crm}"
+        return f"Dr(a): {self.nome} | CRM: {self.crm} | Especialidade: {self.especialidade}"
         
 class Paciente:
     def __init__(self, nome, cpf):
@@ -45,12 +46,17 @@ class Consulta:
             "idConsulta": self.idConsulta,
             }
 
-# 1º instacia teste da classe Medico
-medica = Medico("Sophia","13245PE")
+# Especialidade
+# Criação de especialidades
+cardiologista = Especialidade("Cardiologista")
+neurologista = Especialidade("Neurologista")
+pediatra = Especialidade("Pediatra")
+psiquiatra = Especialidade("Psiquiatra")
 
-# 1º instacia teste da classe Especialidade
-neurologia = Especialidade("Neurologista")
+# Médico
+# Criação do médico neurologistao com uma especialidade
+dra_sophia = Medico("Sophia Henrick", "12345PE",  neurologista)
+# adicionar à lista de medicos 
+neurologista.medicos.append(dra_sophia)
 
-neurologia.medico.append(medica)
-
-print(neurologia)
+print(dra_sophia)
