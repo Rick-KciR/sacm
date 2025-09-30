@@ -1,8 +1,5 @@
 from datetime import datetime
-"""
-Nesse cenário consideramos que um médico tem apenas uma especialidade e que
-esta pode ter um ou mais médicos.
-"""
+
 consultas = []
 
 class Especialidade:
@@ -31,14 +28,14 @@ class Paciente:
         return f"{self.nome}"
     
 class Consulta:
-    def __init__(self, medico, especialidade, paciente):
+    def __init__(self, medico, especialidade, paciente, local):
         self.idConsulta = len(consultas) + 1
         self.medico = medico
         self.especialidade = especialidade
         self.paciente = paciente
+        self.local = local
         self.dataAgendamento = datetime.now()
-        self.status = "Pendente"        
-        
+        self.status = "Pendente"             
         
     def agendarConsulta(self):
         consultas.append(self) # add objeto 'consulta' atual à lista consulta
@@ -52,16 +49,14 @@ class Consulta:
         
     def buscarConsulta(self, idConsulta):
         for consulta in consultas:
-            if consulta.idConsulta == idConsulta:         
-                return consulta
-
-    def listarCancelada(self):
-        for consulta in consultas:
-            if consulta.status == "Cancelada":
-                return consulta
-        
+            if consulta.idConsulta == idConsulta:
+                if consulta.status == "Agendada":
+                    return consulta
+                else:
+                   print(f"A consulta de Nº {idConsulta} já está cancelada.") 
+            
     def __str__(self):
-        return f"Nº{self.idConsulta}| Paciente:{self.paciente}| Medico:{self.medico}| Data:{self.dataAgendamento}| Situação: {self.status}"
+        return f"Nº{self.idConsulta}| Paciente:{self.paciente}| Medico:{self.medico}| Data:{self.dataAgendamento}| Local:{self.local}| Situação: {self.status}"
 
 # Especialidade
 # Instâncias de Especialidade
@@ -91,44 +86,51 @@ ortopedista.medicos.append(medico5)
 paciente1 = Paciente("123.456.789.1", "Monica Maria")
 paciente2 = Paciente("785.569.124.3", "Astrid Leonora")
 paciente3 = Paciente("456.159.357.2", "Carlos Fernandes")
-
+paciente4 = Paciente("369.456.741.8", "Jonathan Davis")
+paciente5 = Paciente("159.357.789.6", "Guaraci Oliveira")
 
 # Agendar consulta
 ## Instancias de Consulta e agendamento de consultas
-print("Consultas agendadas")
-print("-" * 25)
-
-consulta1 = Consulta(medico1, neurologista, paciente2)
+print("\n",50*" ","** Consultas agendadas **\n")
+consulta1 = Consulta(medico1, neurologista, paciente2, "Hospital Esperança")
 consulta1.agendarConsulta()
 print("-" * 135)
-consulta2 = Consulta(medico4, ortopedista, paciente1)
+consulta2 = Consulta(medico4, ortopedista, paciente1, "Hospital São Marcos")
 consulta2.agendarConsulta()
 print("-" * 135)
-consulta3 = Consulta(medico5, oftamologista, paciente3)
+consulta3 = Consulta(medico5, oftamologista, paciente3, "Hospital Geral de Areias")
 consulta3.agendarConsulta()
+print("-" * 135)
+consulta4 = Consulta(medico5, oftamologista, paciente4, "Real Hospital Português")
+consulta4.agendarConsulta()
+print("-" * 135)
+consulta5 = Consulta(medico5, oftamologista, paciente5, "Hospital Agamenon Magalhães")
+consulta5.agendarConsulta()
 print("-" * 135)
 
 # Cancelar Consulta
+print("\n",50*" ","** Consultas canceladas **\n")
 consulta1.cancelarConsulta(1)
 print("-" * 135)
+consulta3.cancelarConsulta(3)
+print("-" * 135)
 
-print("\nConsultas canceladas")
-print("-" * 35)
-cancelada = consulta2.listarCancelada()
-print(cancelada)
+print("\n",50*" ","** Lista de consulta atualizada após cancelamento **\n")
+for c in consultas:
+    if c.status == "Agendada":
+        print(c)
+        print("-" * 135)
 
-print("\nBuscando uma consulta")
-print("-" * 35)
+print("\n",50*" ","** Buscando uma consulta já cancelada **\n")
+busca1 = consulta1.buscarConsulta(1)
+print(busca1)
+print("-" * 135)
+busca3 = consulta3.buscarConsulta(3)
+print(busca3)
+print("-" * 135)
+
+
+print("\n",50*" ","** Buscando uma consulta **\n")
 busca2 = consulta2.buscarConsulta(2)
 print(busca2)
 print("-" * 135)
-
-"""
-for c in consultas:
-    print(c)
-    
-print()
-
-for c in consultas:
-    print(c)
-"""
